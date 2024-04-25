@@ -37,7 +37,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get clean && sudo apt-get update
-        sudo apt-get -y install libc6-dev-i386 libx11-dev:i386
+        sudo apt-get -y install libc6-dev-i386 libx11-dev:i386 zip
 
     - name: make clean
       working-directory: ./src
@@ -46,3 +46,16 @@ jobs:
     - name: make
       working-directory: ./src
       run: make
+
+    - name: zip
+      working-directory: ./src
+      run: zip -r ~/vx32.zip .
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.3
+      with:
+    # Artifact name
+        name: vx32 # optional, default is artifact
+    # A file, directory or wildcard pattern that describes what to upload
+        path: ~/vx32.zip
+    # The desired behavior if no files are found using the provided path.
